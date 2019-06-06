@@ -6,7 +6,7 @@
  * Time: 13:25
  * prefix、dir、filename支持变量、上传文件时会自动替换
  * {year} 年、{month} 月、{day} 日、{hour} 小时、{min} 分、{sec} 秒、{micro} microtime()微秒小数点后数字
- * {fileMd5}文件名md5字串、{fileName} 原文件名，如果是web端直传，必须在调用policy接口时传文件名这两个字段才有效
+ * {filemd5}文件名md5字串、{filename} 原文件名，如果是web端直传，必须在调用policy接口时传文件名这两个字段才有效
  * {count}循环自增计数器，范围00000~99999，缓存时效1小时
  */
 return [
@@ -14,7 +14,7 @@ return [
     'default' =>[
         'prefix' => env('ALI_OSS_PREFIX', 'dev'),// 路径前缀，可用于区分不同环境
         'dir' => env('ALI_OSS_DEFAULT_DIR', '{year}{month}{day}'),//保存文件目录路径
-        'object' => env('ALI_OSS_DEFAULT_OBJECT', '{sec}{count}{suffix}'),//自动生成oss对象名，如果在上传文件过程中未传filename，Content-Disposition中attachment为object
+        'filename' => env('ALI_OSS_DEFAULT_FILE_NAME', '{hour}{min}{sec}{count}{suffix}'),//自动生成oss对象名，如果在上传文件过程中未传filename，Content-Disposition中attachment为object
         'access_key_id' => env('ALI_OSS_ACCESS_KEY_ID'),
         'access_key_secret' => env('ALI_OSS_ACCESS_KEY_SECRET'),
         'bucket' => env('ALI_OSS_BUCKET'),

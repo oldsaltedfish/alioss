@@ -9,6 +9,7 @@
 namespace Wuliaowyh\AliOss;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use OSS\Core\OssException;
 use OSS\OssClient;
 
@@ -24,7 +25,7 @@ class Oss extends OssClient
         }
         $config['prefix'] = trim($config['prefix'], '\/');
         $config['dir'] = trim($config['dir'], '/');
-        $config['object'] = trim($config['object'], '/');
+        $config['filename'] = trim($config['filename'], '/');
         $this->config = $config;
         parent::__construct(
             $config['access_key_id'],
@@ -47,16 +48,6 @@ class Oss extends OssClient
         return $dir;
     }
 
-    protected function getObjectStr($filename = '', $fileMd5 = '')
-    {
-        $dir = $this->getDir($filename, $fileMd5);
-        $object = $this->config['object'];
-        if($dir){
-            $object = $dir.'/'.$object;
-        }
-        return $object;
-    }
-
     protected function getCachePrefix(){
         return config('cache_prefix').$this->config['access_key_id'];
     }
@@ -68,12 +59,22 @@ class Oss extends OssClient
             $count = 1;
             Cache::put($key, $count, $this->config['cache_prefix']);
         }
+
+        $count=  str_pad($count, '5', '0', STR_PAD_LEFT);
         return $count;
     }
 
     protected function replaceVar(string $subject, $fileName = '', $fileMd5 = '')
     {
-        $suffix = empty($fileName)? '' : '.'.substr($fileName, stripos($fileName, '.') + 1);
+        $suffix = '';
+        if(!empty($fileName)){
+            $match = '';
+            preg_match('/^(.+)\.([^\.]+)$/',$fileName,$match);
+            if(!empty($match)){
+                $fileName = $match[1];
+                $suffix = '.'.$match[2];
+            }
+        }
         $micro = preg_match('/\.([\d]+\\s)/', microtime(), $matches);
         $search = [
             '{year}',
@@ -85,8 +86,8 @@ class Oss extends OssClient
             '{sec}',
             '{micro}',
             '{count}',
-            '{fileMd5}',
-            '{fileName}',
+            '{filemd5}',
+            '{filename}',
             '{suffix}'
         ];
         $replace = [
@@ -120,9 +121,9 @@ class Oss extends OssClient
      * @return array
      * @throws \Exception
      */
-    public function policy()
+    public function policy($filename='')
     {
-        $dir = $this->getDir();
+        $dir = $this->getDir($filename);
         if(!empty($this->config['callback_url'])){
             $callback_param = [
                 'callbackUrl'=> $this->config['callback_url'],
@@ -167,6 +168,11 @@ class Oss extends OssClient
         }
         //这个参数是设置用户上传指定的前缀
         $response['dir'] = $dir;
+        $response['filename'] = $this->getFilename($filename);
         return $response;
+    }
+
+    function getFilename($fileName = '', $fileMd5 = ''){
+        return $this->replaceVar($this->config['filename'], $fileName, $fileMd5);
     }
 }
