@@ -5,6 +5,26 @@
     "require-dev": {
         "orchestra/testbench": "^3.5"
     },
+    "autoload": {
+        "psr-4": {
+            "Wuliaowyh\\AliOss\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Wuliaowyh\\AliOss\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wuliaowyh\\AliOss\\OssServiceProvider"
+            ],
+            "aliases": {
+                "Oss": "Wuliaowyh\\AliOss\\Facades\\Oss"
+            }
+        }
+    },
     "license": "MIT",
     "authors": [
         {
@@ -12,5 +32,7 @@
             "email": "rmzf@qq.com"
         }
     ],
-    "require": {}
+    "require": {
+        "aliyuncs/oss-sdk-php": "^2.3"
+    }
 }
