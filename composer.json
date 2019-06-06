@@ -1,0 +1,16 @@
+{
+    "name": "wuliaowyh/alioss",
+    "description": "Alibaba Cloud OSS laravel package",
+    "type": "library",
+    "require-dev": {
+        "orchestra/testbench": "^3.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wyh",
+            "email": "rmzf@qq.com"
+        }
+    ],
+    "require": {}
+}
