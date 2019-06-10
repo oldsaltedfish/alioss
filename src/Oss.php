@@ -155,11 +155,11 @@ class Oss extends OssClient
         $base64_policy = base64_encode($policy);
         $string_to_sign = $base64_policy;
         $signature = base64_encode(hash_hmac('sha1', $string_to_sign, $this->config['access_key_secret'], true));
-        $host = 'https://'.$this->config['bucket'].'.'.$this->config['endpoint'];
+        $url = 'https://'.$this->config['bucket'].'.'.$this->config['endpoint'];
 
         $response = [];
-        $response['accessid'] = $this->config['access_key_id'];
-        $response['host'] = $host;
+        $response['access_key_id'] = $this->config['access_key_id'];
+        $response['url'] = $url;
         $response['policy'] = $base64_policy;
         $response['signature'] = $signature;
         $response['expire'] = $endTime;
