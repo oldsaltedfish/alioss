@@ -172,7 +172,12 @@ class Oss extends OssClient
         return $response;
     }
 
-    function getFilename($fileName = '', $fileMd5 = ''){
+    protected function getFilename($fileName = '', $fileMd5 = ''){
         return $this->replaceVar($this->config['filename'], $fileName, $fileMd5);
     }
+
+    public function url($object){
+        return 'https://'.$this->config['bucket'] .'.'.$this->config['endpoint'] . '/' .trim($object, './');
+    }
+
 }

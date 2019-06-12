@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static void policy()
+ * @method static void url(string $object)
  * @see \Wuliaowyh\AliOss\Oss
  */
 class Oss extends Facade

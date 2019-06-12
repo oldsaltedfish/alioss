@@ -54,4 +54,12 @@ class TestCase extends Orchestra\Testbench\TestCase
         $this->assertArrayHasKey('policy', $policy);
         $this->assertIsString($policy['policy']);
     }
+    /**
+     *  @test
+     */
+    public function test(){
+        $obj = 'test';
+        $excepted = 'https://'.config('alioss.default.bucket').'.'.config('alioss.default.endpoint').'/'.$obj;
+        $this->assertEquals($excepted, Oss::url($obj));
+    }
 }
