@@ -177,7 +177,7 @@ class Oss extends OssClient
     }
 
     public function url($object){
-        return (!empty($object) && is_string($object)) ? '' : 'https://'.$this->config['bucket'] .'.'.$this->config['endpoint'] . '/' .trim($object, './');
+        return (!empty($object) && is_string($object)) ? 'https://'.$this->config['bucket'] .'.'.$this->config['endpoint'] . '/' .trim($object, './') : '';
     }
 
 }
