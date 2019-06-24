@@ -62,4 +62,15 @@ class TestCase extends Orchestra\Testbench\TestCase
         $excepted = 'https://'.config('alioss.default.bucket').'.'.config('alioss.default.endpoint').'/'.$obj;
         $this->assertEquals($excepted, Oss::url($obj));
     }
+
+    /**
+     *  @test
+     */
+    public function testSaveObjTo(){
+        $path = 'test_file';
+        Oss::saveObjTo('201812/15450116053nyZD.png', $path);
+        if(file_exists($path)){}
+        $this->assertIsBool((file_exists($path)));
+        unlink($path);
+    }
 }

@@ -180,4 +180,15 @@ class Oss extends OssClient
         return (!empty($object) && is_string($object)) ? 'https://'.$this->config['bucket'] .'.'.$this->config['endpoint'] . '/' .trim($object, './') : '';
     }
 
+    public function saveObjTo($objectUrl, $path = ''){
+
+        if(!empty($path)) {
+            $options = array(
+                Oss::OSS_FILE_DOWNLOAD => $path
+            );
+        }
+        $objectUrl = trim($objectUrl, '/');
+        return $this->getObject($this->config['bucket'], $objectUrl, $options);
+    }
+
 }

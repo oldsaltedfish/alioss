@@ -29,4 +29,14 @@ $url = Oss::url($object);
 ```
  调用url方法后$url为：https://ALI_OSS_BUCKET.ALI_OSS_ENDPOINT/image/a.jpg
 
+## 保存oss对象到本地服务器
+
+```php
+// $object为oss对象名，如 image/a.jpg; $path为本地服务器路径
+$url = Oss::saveObjTo($object, $path);
+
+
+
+```
+
 ## 其他接口与阿里官方接口一致，可以直接使

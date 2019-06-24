@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static void policy()
  * @method static void url(string $object)
+ * @method static void saveObjTo(string $object, $path)
  * @see \Wuliaowyh\AliOss\Oss
  */
 class Oss extends Facade
