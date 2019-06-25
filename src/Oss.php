@@ -198,9 +198,11 @@ class Oss extends OssClient
         return $this->deleteObject($this->config['bucket'], $object);
     }
 
-    public function put($object, $content)
+    public function put($content)
     {
-        return $this->putObject($this->config['bucket'], $object, $content);
+        $obj = $this->getDir().'/'.$this->getFilename();
+        $this->putObject($this->config['bucket'], $obj, $content);
+        return $obj;
     }
 
     public function get($object)
@@ -208,9 +210,11 @@ class Oss extends OssClient
         return $this->getObject($this->config['bucket'], $object);
     }
 
-    public function upload($object, $filePath)
+    public function upload($filePath)
     {
-        return $this->uploadFile($this->config['bucket'], $object, $filePath);
+        $object = $this->getDir().'/'.$this->getFilename($filePath);
+        $this->uploadFile($this->config['bucket'], $object, $filePath);
+        return $object;
     }
 
 }

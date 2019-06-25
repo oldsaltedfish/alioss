@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Facade;
  * @method static void policy()
  * @method static void url(string $object)
  * @method static void saveObjTo(string $object, $path)
+ * @method static string put(string $content)
+ * @method static string void upload($path)
+ * @method static string get(string $object)
+ * @method static void del(string $object)
  * @see \Wuliaowyh\AliOss\Oss
  */
 class Oss extends Facade

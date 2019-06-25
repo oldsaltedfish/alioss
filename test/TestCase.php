@@ -16,7 +16,7 @@ class TestCase extends Orchestra\Testbench\TestCase
         $app['config']->set('alioss.default',[
             'prefix' => env('ALI_OSS_PREFIX', 'dev'),// 路径前缀，可用于区分不同环境
             'dir' => env('ALI_OSS_DEFAULT_DIR', '{year}{month}/{day}'),//保存文件目录路径
-            'filename' => env('ALI_OSS_DEFAULT_FILE_NAME', '{hour}{min}{sec}{count}{filename}{suffix}'),
+            'filename' => env('ALI_OSS_DEFAULT_FILE_NAME', '{hour}{min}{sec}{count}{suffix}'),
             'access_key_id' => env('ALI_OSS_ACCESS_KEY_ID'),
             'access_key_secret' => env('ALI_OSS_ACCESS_KEY_SECRET'),
             'bucket' => env('ALI_OSS_BUCKET'),
@@ -77,12 +77,12 @@ class TestCase extends Orchestra\Testbench\TestCase
     public function testPut()
     {
         $obj = 'test_content';
-        Oss::put($obj, $obj);
+        $ossObj = Oss::put($obj);
 
-        $this->assertTrue($obj === Oss::get($obj));
-        Oss::del($obj);
+        $this->assertTrue($obj === Oss::get($ossObj));
+        Oss::del($ossObj);
         try{
-            Oss::get($obj);
+            Oss::get($ossObj);
         }catch (Exception $e){
             $this->assertIsInt(strpos($e->getMessage(), 'NoSuchKey'));
         }
@@ -90,13 +90,12 @@ class TestCase extends Orchestra\Testbench\TestCase
 
     public function testUpload()
     {
-        $obj = 'test_content';
-        Oss::upload($obj, 'testfile');
-        Oss::saveObjTo($obj, 'dowlandTestfile');
+        $ossObj = Oss::upload('testfile');
+        Oss::saveObjTo($ossObj, 'dowlandTestfile');
         $this->assertTrue(file_exists('dowlandTestfile'));
-        Oss::del($obj);
+        Oss::del($ossObj);
         try{
-            Oss::get($obj);
+            Oss::get($ossObj);
         }catch (Exception $e){
             $this->assertIsInt(strpos($e->getMessage(), 'NoSuchKey'));
         }
