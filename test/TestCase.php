@@ -73,4 +73,33 @@ class TestCase extends Orchestra\Testbench\TestCase
         $this->assertIsBool((file_exists($path)));
         unlink($path);
     }
+
+    public function testPut()
+    {
+        $obj = 'test_content';
+        Oss::put($obj, $obj);
+
+        $this->assertTrue($obj === Oss::get($obj));
+        Oss::del($obj);
+        try{
+            Oss::get($obj);
+        }catch (Exception $e){
+            $this->assertIsInt(strpos($e->getMessage(), 'NoSuchKey'));
+        }
+    }
+
+    public function testUpload()
+    {
+        $obj = 'test_content';
+        Oss::upload($obj, 'testfile');
+        Oss::saveObjTo($obj, 'dowlandTestfile');
+        $this->assertTrue(file_exists('dowlandTestfile'));
+        Oss::del($obj);
+        try{
+            Oss::get($obj);
+        }catch (Exception $e){
+            $this->assertIsInt(strpos($e->getMessage(), 'NoSuchKey'));
+        }
+        unlink('dowlandTestfile');
+    }
 }
